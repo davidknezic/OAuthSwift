@@ -99,7 +99,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             accessTokenUrl: "https://github.com/login/oauth/access_token",
             responseType:   "code"
         )
-        oauthswift.authorizeWithCallbackURL( NSURL(string: "oauth-swift://oauth-callback/github")!, scope: "user,repo", state: "GITHUB", success: {
+        oauthswift.authorize( NSURL(string: "oauth-swift://oauth-callback/github"), scope: "user,repo", state: "GITHUB", success: {
             credential, response in
             self.showAlertView("Github", message: "oauth_token:\(credential.oauth_token)")
             }, failure: {(error:NSError!) -> Void in
@@ -117,7 +117,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         )
 
         oauthswift.webViewController = WebViewController()
-        oauthswift.authorizeWithCallbackURL( NSURL(string: "oauth-swift://oauth-callback/instagram")!, scope: "likes+comments", state:"INSTAGRAM", success: {
+        oauthswift.authorize( NSURL(string: "oauth-swift://oauth-callback/instagram"), scope: "likes+comments", state:"INSTAGRAM", success: {
             credential, response in
             self.showAlertView("Instagram", message: "oauth_token:\(credential.oauth_token)")
             let url :String = "https://api.instagram.com/v1/users/1574083/?access_token=\(credential.oauth_token)"
@@ -142,7 +142,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             authorizeUrl:   "https://foursquare.com/oauth2/authorize",
             responseType:   "token"
         )
-        oauthswift.authorizeWithCallbackURL( NSURL(string: "oauth-swift://oauth-callback/foursquare")!, scope: "", state: "", success: {
+        oauthswift.authorize( NSURL(string: "oauth-swift://oauth-callback/foursquare"), scope: "", state: "", success: {
             credential, response in
             self.showAlertView("Foursquare", message: "oauth_token:\(credential.oauth_token)")
             }, failure: {(error:NSError!) -> Void in
@@ -190,7 +190,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             authorizeUrl:    "https://api.linkedin.com/uas/oauth/authenticate",
             accessTokenUrl:  "https://api.linkedin.com/uas/oauth/accessToken"
         )
-        oauthswift.authorizeWithCallbackURL( NSURL(string: "oauth-swift://oauth-callback/linkedin")!, success: {
+        oauthswift.authorizeWithCallbackURL(NSURL(string: "oauth-swift://oauth-callback/linkedin")!, success: {
             credential, response in
             self.showAlertView("Linkedin", message: "oauth_token:\(credential.oauth_token)\n\noauth_toke_secret:\(credential.oauth_token_secret)")
                 var parameters =  Dictionary<String, AnyObject>()
@@ -215,7 +215,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             accessTokenUrl: "https://api.dropbox.com/1/oauth2/token",
             responseType:   "token"
         )
-        oauthswift.authorizeWithCallbackURL( NSURL(string: "oauth-swift://oauth-callback/dropbox")!, scope: "", state: "", success: {
+        oauthswift.authorize( NSURL(string: "oauth-swift://oauth-callback/dropbox"), scope: "", state: "", success: {
             credential, response in
             self.showAlertView("Dropbox", message: "oauth_token:\(credential.oauth_token)")
             // Get Dropbox Account Info
@@ -242,7 +242,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             accessTokenUrl: "https://dribbble.com/oauth/token",
             responseType:   "code"
         )
-        oauthswift.authorizeWithCallbackURL( NSURL(string: "oauth-swift://oauth-callback/dribbble")!, scope: "", state: "", success: {
+        oauthswift.authorize( NSURL(string: "oauth-swift://oauth-callback/dribbble"), scope: "", state: "", success: {
             credential, response in
             self.showAlertView("Dribbble", message: "oauth_token:\(credential.oauth_token)")
             // Get User

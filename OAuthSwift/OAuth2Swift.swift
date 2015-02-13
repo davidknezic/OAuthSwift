@@ -50,7 +50,7 @@ public class OAuth2Swift: NSObject {
     public typealias FailureHandler = (error: NSError) -> Void
     
 
-    public func authorizeWithCallbackURL(callbackURL: NSURL, scope: String, state: String, params: Dictionary<String, String> = Dictionary<String, String>(), success: TokenSuccessHandler, failure: ((error: NSError) -> Void)) {
+    public func authorize(callbackURL: NSURL?, scope: String, state: String, params: Dictionary<String, String> = Dictionary<String, String>(), success: TokenSuccessHandler, failure: ((error: NSError) -> Void)) {
         self.observer = NSNotificationCenter.defaultCenter().addObserverForName(CallbackNotification.notificationName, object: nil, queue: NSOperationQueue.mainQueue(), usingBlock:{
             notification in
             NSNotificationCenter.defaultCenter().removeObserver(self.observer!)
@@ -79,7 +79,9 @@ public class OAuth2Swift: NSObject {
         var urlString = String()
         urlString += self.authorize_url
         urlString += "?client_id=\(self.consumer_key)"
-        urlString += "&redirect_uri=\(callbackURL.absoluteString!)"
+        if (callbackURL != nil) {
+            urlString += "&redirect_uri=\(callbackURL!.absoluteString!)"
+        }
         urlString += "&response_type=\(self.response_type)"
         if (scope != "") {
           urlString += "&scope=\(scope)"
@@ -102,13 +104,15 @@ public class OAuth2Swift: NSObject {
         }
     }
     
-    func postOAuthAccessTokenWithRequestTokenByCode(code: String, callbackURL: NSURL, success: TokenSuccessHandler, failure: FailureHandler?) {
+    func postOAuthAccessTokenWithRequestTokenByCode(code: String, callbackURL: NSURL?, success: TokenSuccessHandler, failure: FailureHandler?) {
         var parameters = Dictionary<String, AnyObject>()
         parameters["client_id"] = self.consumer_key
         parameters["client_secret"] = self.consumer_secret
         parameters["code"] = code
         parameters["grant_type"] = "authorization_code"
-        parameters["redirect_uri"] = callbackURL.absoluteString!
+        if (callbackURL != nil) {
+            parameters["redirect_uri"] = callbackURL!.absoluteString!
+        }
         
         self.client.post(self.access_token_url!, parameters: parameters, success: {
             data, response in
